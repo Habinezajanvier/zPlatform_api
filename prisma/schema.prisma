@@ -16,9 +16,10 @@ model User {
   firstname  String
   lastname String
   password String
+  emailVerified Boolean @default(false)
   profile String?
   documents Document[]
-  state String @default("pending")
+  status String @default("pending")
 }
 
 model Document {

@@ -5,8 +5,9 @@ CREATE TABLE "User" (
     "firstname" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "profile" TEXT,
-    "state" TEXT NOT NULL DEFAULT 'pending',
+    "status" TEXT NOT NULL DEFAULT 'pending',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

@@ -1,13 +1,11 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import { PrismaClient } from '@prisma/client'
 import router from "./routes";
 
 dotenv.config();
 
 const app: Express = express();
-const prisma = new PrismaClient()
 
 // Middlewares
 app.use(express.json());

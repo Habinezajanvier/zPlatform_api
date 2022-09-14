@@ -6,5 +6,6 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/dist"
-  ]
+  ],
+  testTimeout: 30000
 };
