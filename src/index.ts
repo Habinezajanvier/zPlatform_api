@@ -1,5 +1,11 @@
 import app from "./app";
 
+declare module "express" {
+  export interface Request {
+    user?: any;
+  }
+}
+
 const port = process.env.PORT;
 
 app.listen(port, () => {

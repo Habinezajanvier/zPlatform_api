@@ -20,6 +20,10 @@ model User {
   profile String?
   documents Document[]
   status String @default("pending")
+  createdAt DateTime @default(now())
+  dob DateTime?
+  gender String?
+  maritalStatus String?
 }
 
 model Document {

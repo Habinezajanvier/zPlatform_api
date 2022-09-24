@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:10.3
+    restart: always
+    environment:
+      - POSTGRES_USER=janvier
+      - POSTGRES_PASSWORD=janvier1998
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  # app:
+  #   image: api
+  #   env_file:
+  #     - .env.dev
+  #   environment:
+  #     - NODE_ENV=production
+  #     - PORT=8080
+  #   restart: always
+  #   build: .
+  #   depends_on:
+  #     - postgres
+  #   links:
+  #     - postgres
+  #   ports:
+  #     - '8080:8080'
+        
+volumes:
+  postgres:
+# volumes:
+#   zplatform-db:

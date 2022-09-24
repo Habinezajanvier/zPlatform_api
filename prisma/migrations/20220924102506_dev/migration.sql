@@ -8,6 +8,10 @@ CREATE TABLE "User" (
     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "profile" TEXT,
     "status" TEXT NOT NULL DEFAULT 'pending',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "dob" TIMESTAMP(3),
+    "gender" TEXT,
+    "maritalStatus" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

@@ -67,6 +67,9 @@ const auth = {
     if (!userAccount)
       return res.status(403).json({ error: "Email or Password is incorrect" });
 
+    if (!userAccount.emailVerified)
+      return res.status(403).json({ error: "Verify your email first" });
+
     const validPass = await comparePassword(
       password,
       userAccount.password as string
@@ -96,8 +99,7 @@ const auth = {
    */
   verifyEmail: async (req: Request, res: Response) => {
     const token = req.query.token as string;
-    const payload = decode(token?.split(' ')[0] as string);
-
+    const payload = decode(token?.split(" ")[0] as string);
 
     const newUser = await user.getOneUser(Number(payload.id));
     if (!newUser) return res.status(404).json({ error: "User does not exit" });
@@ -112,7 +114,7 @@ const auth = {
         email: newUser.email,
         firstname: newUser.firstname,
         lastname: newUser.lastname,
-        emailVerified: newUser.emailVerified
+        emailVerified: newUser.emailVerified,
       },
     });
   },
