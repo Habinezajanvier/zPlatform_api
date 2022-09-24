@@ -4,12 +4,14 @@ import {
   hashPassword,
   comparePassword,
   verifyEmailContent,
+  resetPasswordEmailContent,
   decode,
 } from "../helper";
 import Services from "../services";
 import { MailOptions } from "../types";
 
 const { user, mailer } = Services;
+const env = process.env.NODE_ENV;
 
 const auth = {
   /**
@@ -30,8 +32,6 @@ const auth = {
     const data = { firstname, lastname, email, password: hashedPassword };
     const newUser = await user.createUser(data);
 
-    const env = process.env.NODE_ENV;
-
     if (env !== "test") {
       // Send email here
       const token = encode({ id: newUser.id });
@@ -47,6 +47,7 @@ const auth = {
       message:
         "User created successfully, check your email to verify your account",
       data: {
+        id: newUser.id,
         email: newUser.email,
         firstname: newUser.firstname,
         lastname: newUser.lastname,
@@ -84,6 +85,7 @@ const auth = {
       message: "User logged in successfully",
       token,
       data: {
+        id: userAccount.id,
         email: userAccount.email,
         firstname: userAccount.firstname,
         lastname: userAccount.lastname,
@@ -111,6 +113,7 @@ const auth = {
       message: "Email verified successfully",
       token,
       data: {
+        id: newUser.id,
         email: newUser.email,
         firstname: newUser.firstname,
         lastname: newUser.lastname,
@@ -118,6 +121,57 @@ const auth = {
       },
     });
   },
+
+  /**
+   * ForgetMyPassword
+   * @param req
+   * @param res
+   * @returns
+   */
+  forgetPassword: async (req: Request, res: Response) => {
+    const { email } = req.body;
+    const findUser = await user.getUserByEmail(email);
+    if (!findUser)
+      return res.status(404).json({ error: "No user found with such email" });
+
+    if (env !== "test") {
+      // Send email here
+      const token = encode({ id: findUser.id });
+      const mailOption: MailOptions = {
+        receiver: email,
+        content: resetPasswordEmailContent(token),
+        subject: "Password Reset",
+      };
+      await mailer(mailOption);
+    }
+
+    return res.status(200).json({
+      message: "Check your email for reset link !!",
+    });
+  },
+
+  resetPassword: async (req: Request, res: Response)=>{
+    const token = req.query.token as string;
+    const payload = decode(token?.split(" ")[0] as string);
+
+    const newUser = await user.getOneUser(Number(payload.id));
+    if (!newUser) return res.status(404).json({ error: "User does not exit" });
+
+    const hashedPassword = await hashPassword(req.body.password);
+    const updatedUser = await user.updateUser(Number(newUser.id), {password: hashedPassword});
+
+    return res.status(200).json({
+      message: "Password reset successfully",
+      token,
+      data: {
+        id: newUser.id,
+        email: newUser.email,
+        firstname: newUser.firstname,
+        lastname: newUser.lastname,
+        emailVerified: newUser.emailVerified,
+      },
+    });
+  }
 };
 
 export default auth;

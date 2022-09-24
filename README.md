@@ -11,12 +11,24 @@ Company Z provides essential online services for tens of thousands of users thro
 
 ### Installation
 
+Recommended to use docker way rather than installing the project in your PC
+
 - Clone this project
 - Install all dependencies `yarn`
 - Create a `.env.dev` file and fill it with data from `.env.example`
 - Start postgres container in docker `docker compose up`
 - Build the app `yarn build`
+- Migrate your database `yarn migrate:dev`
 - Start the server `yarn start`
+
+### Starting through docker
+
+- Clone this project
+- Install all dependencies `yarn`
+- Create a `.env.dev` file and fill it with data from `.env.example`
+- Start postgres container in docker `docker compose up`
+- Get all running containers `docker ps`
+- Migrate your database in the container `docker exec [image id with api name] npm run migrate:dev`
 
 ### Testing
 

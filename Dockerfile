@@ -10,6 +10,8 @@ COPY . .
 
 RUN npm run build
 
+RUN npx prisma generate
+
 EXPOSE ${PORT}
 
 CMD ["npm", "run", "start"]
