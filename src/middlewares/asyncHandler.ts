@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 /**
  * Handles all server error
  * @param func callback function
- * @returns 
+ * @returns
  */
 const asyncHandler =
   (func: Function) => async (req: Request, res: Response, next: Function) => {

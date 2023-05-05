@@ -24,3 +24,7 @@ export const resetPasswordEmailContent = (token: string): string => {
     `;
   return mail;
 };
+
+export const sendOtpEmail = (otp: string | number):string => {
+  return `<p>Your OTP to use on z-platform is <strong>otp</strong></p>`
+}

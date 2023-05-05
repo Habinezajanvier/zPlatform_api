@@ -5,7 +5,7 @@ import userRouter from "./users";
 const router: Router = Router();
 
 router.get("/", (_req: Request, res: Response) => {
-  res.status(200).json({ message: "Welcome to z-Platform" });
+  res.status(200).json({ message: "Welcome to z-Platform api" });
 });
 
 // All routes handler should be here

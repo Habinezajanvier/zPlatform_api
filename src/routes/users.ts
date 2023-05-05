@@ -1,17 +1,18 @@
 import {Router} from 'express';
-import users from '../controllers/users';
+import controller from '../controllers';
 import asyncHandler from '../middlewares/asyncHandler';
 import { authorization } from '../middlewares/authentication';
 import { validateId } from '../middlewares/validator/userValidator';
 
 const userRouter:Router = Router();
+const {user} = controller;
 
-userRouter.get('/', asyncHandler(users.getAllUsers));
-userRouter.get('/me', authorization, asyncHandler(users.getSelfProfile));
-userRouter.put('/update', authorization, asyncHandler(users.updateSelf));
-userRouter.get('/:id', asyncHandler(validateId), authorization, asyncHandler(users.getOneUser));
-userRouter.put('/:id', asyncHandler(validateId), authorization, asyncHandler(users.updateUser));
-userRouter.delete('/:id', asyncHandler(validateId), authorization, asyncHandler(users.deleteUser));
+userRouter.get('/', asyncHandler(user.getAllUsers));
+userRouter.get('/me', authorization, asyncHandler(user.getSelfProfile));
+userRouter.put('/update', authorization, asyncHandler(user.updateSelf));
+userRouter.get('/:id', asyncHandler(validateId), authorization, asyncHandler(user.getOneUser));
+userRouter.put('/:id', asyncHandler(validateId), authorization, asyncHandler(user.updateUser));
+userRouter.delete('/:id', asyncHandler(validateId), authorization, asyncHandler(user.deleteUser));
 
 export default userRouter;
 

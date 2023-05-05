@@ -3,6 +3,8 @@ export type UserType = {
   lastname: string;
   email: string;
   password: string;
+  emailVerified?: boolean;
+  otp?: number;
 };
 
 export type MailOptions = {
@@ -10,3 +12,9 @@ export type MailOptions = {
   subject: string;
   content: string;
 };
+
+export enum mailType {
+  "VERIFY",
+  "RESET",
+  "OTP",
+}

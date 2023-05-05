@@ -3,14 +3,14 @@ import Services from "../services";
 
 const { user } = Services;
 
-const users = {
+class UserController{
   /**
    * Get All users
    * @param req
    * @param res
    * @returns
    */
-  getAllUsers: async (req: Request, res: Response) => {
+  public getAllUsers = async (req: Request, res: Response) => {
     const data = await user.getAllUsers();
     if (!data || data.length === 0)
       return res.status(404).json({ error: "No user found" });
@@ -18,7 +18,7 @@ const users = {
       message: "Users found successfully",
       data,
     });
-  },
+  }
 
   /**
    * GetOneUser
@@ -26,14 +26,14 @@ const users = {
    * @param res
    * @returns
    */
-  getOneUser: async (req: Request, res: Response) => {
+  public getOneUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const data = await user.getOneUser(Number(id));
     return res.status(200).json({
       message: "User found successfully",
       data,
     });
-  },
+  }
 
   /**
    * Update user
@@ -41,14 +41,14 @@ const users = {
    * @param res
    * @returns
    */
-  updateUser: async (req: Request, res: Response) => {
+  public updateUser= async (req: Request, res: Response) => {
     const { id } = req.params;
     const data = await user.updateUser(Number(id), { ...req.body });
     return res.status(200).json({
       message: "User updated successfully",
       data,
     });
-  },
+  }
 
   /**
    * Delete user
@@ -56,14 +56,14 @@ const users = {
    * @param res
    * @returns
    */
-  deleteUser: async (req: Request, res: Response) => {
+  public deleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const data = await user.deleteUser(Number(id));
     return res.status(200).json({
       message: "User deleted successfully",
       data,
     });
-  },
+  }
 
   /**
    * GetSelf Profile
@@ -71,14 +71,14 @@ const users = {
    * @param res
    * @returns
    */
-  getSelfProfile: async (req: Request, res: Response) => {
+  public getSelfProfile = async (req: Request, res: Response) => {
     const { id } = req.user;
     const data = await user.getOneUser(Number(id));
     return res.status(200).json({
       message: "User found successfully",
       data,
     });
-  },
+  }
 
   /**
    * Update user
@@ -86,14 +86,14 @@ const users = {
    * @param res
    * @returns
    */
-   updateSelf: async (req: Request, res: Response) => {
+   public updateSelf = async (req: Request, res: Response) => {
     const { id } = req.user;
     const data = await user.updateUser(Number(id), { ...req.body });
     return res.status(200).json({
       message: "User updated successfully",
       data,
     });
-  },
+  }
 };
 
-export default users;
+export default UserController;
