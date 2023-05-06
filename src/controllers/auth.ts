@@ -99,7 +99,7 @@ class AuthController {
   public loginWithOtp = async (req: Request, res: Response) => {
     const { email, otp } = req.body;
     const userAccount = await user.getUserByEmail(email);
-    if (!userAccount || userAccount.otp !== otp)
+    if (!userAccount || userAccount.otp !== Number(otp))
       return res.status(403).json({ error: "Otp privided is not correct" });
     const token = encode({ id: userAccount.id, email: userAccount.email });
     return res.status(200).json({
@@ -130,9 +130,11 @@ class AuthController {
     const data = { emailVerified: true };
     const updatedUser = await user.updateUser(Number(newUser.id), data);
 
+    const newToken = encode({ id: newUser.id, email: newUser.email });
+
     return res.status(200).json({
       message: "Email verified successfully",
-      token,
+      token: newToken,
       data: {
         id: newUser.id,
         email: newUser.email,
@@ -157,7 +159,7 @@ class AuthController {
 
     // Send email here
     const token = encode({ id: findUser.id });
-    await mailer.mailer(email, mailType.RESET);
+    await mailer.mailer(email, mailType.RESET, token);
 
     return res.status(200).json({
       message: "Check your email for reset link !!",
@@ -176,9 +178,11 @@ class AuthController {
       password: hashedPassword,
     });
 
+    const newToken = encode({ id: newUser.id, email: newUser.email });
+
     return res.status(200).json({
       message: "Password reset successfully",
-      token,
+      token: newToken,
       data: {
         id: newUser.id,
         email: newUser.email,

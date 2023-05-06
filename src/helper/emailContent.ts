@@ -2,8 +2,8 @@ const { VERIFICATION_HOST } = process.env;
 
 /**
  * createEmailVerification content
- * @param token 
- * @returns 
+ * @param token
+ * @returns
  */
 export const verifyEmailContent = (token: string): string => {
   const link = `${VERIFICATION_HOST}/verify?token=${token}`;
@@ -14,8 +14,8 @@ export const verifyEmailContent = (token: string): string => {
 };
 /**
  * resetPasswordEmail content
- * @param token 
- * @returns 
+ * @param token
+ * @returns
  */
 export const resetPasswordEmailContent = (token: string): string => {
   const link = `${VERIFICATION_HOST}/reset/?token=${token}`;
@@ -25,6 +25,6 @@ export const resetPasswordEmailContent = (token: string): string => {
   return mail;
 };
 
-export const sendOtpEmail = (otp: string | number):string => {
-  return `<p>Your OTP to use on z-platform is <strong>otp</strong></p>`
-}
+export const sendOtpEmail = (otp: string | number): string => {
+  return `<p>Your OTP to use on z-platform is <strong>${otp}</strong></p>`;
+};
