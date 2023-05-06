@@ -1,16 +1,18 @@
-version: '3.8'
+version: "3.8"
 services:
   postgres:
     image: postgres:10.3
     restart: always
+    env_file:
+      - .env.dev
     environment:
       - POSTGRES_USER=janvier
       - POSTGRES_PASSWORD=janvier1998
-      - POSTGRES_DB=prisma
+      - POSTGRES_DB=zplatform
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - "5432:5432"
   app:
     image: api
     env_file:
@@ -25,9 +27,7 @@ services:
     links:
       - postgres
     ports:
-      - '8080:8080'
-        
+      - "8080:8080"
+
 volumes:
   postgres:
-# volumes:
-#   zplatform-db:
