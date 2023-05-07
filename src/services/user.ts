@@ -1,5 +1,6 @@
-import prisma from '../db/prisma';
-import {UserType} from '../types';
+import { User } from ".prisma/client";
+import prisma from "../db/prisma";
+import { UserType } from "../types";
 
 const { user } = prisma;
 
@@ -8,6 +9,22 @@ const { user } = prisma;
  */
 class UserServices {
   /**
+   * exclude fields
+   * @param user
+   * @param keys
+   * @returns
+   */
+  private exclude<User, Key extends keyof User>(
+    user: User,
+    keys: Key[]
+  ): Omit<User, Key> {
+    for (let key of keys) {
+      delete user[key];
+    }
+    return user;
+  }
+
+  /**
    * create new user
    * @param data
    * @returns
@@ -15,7 +32,7 @@ class UserServices {
   createUser = async (data: UserType) => {
     const result = await user.create({ data });
     return result;
-  }
+  };
 
   /**
    * getAllUsers
@@ -23,8 +40,8 @@ class UserServices {
    */
   getAllUsers = async () => {
     const users = await user.findMany();
-    return users;
-  }
+    return users.map((user) => this.exclude(user, ["password", "otp"]));
+  };
 
   /**
    * getOneUser by Id
@@ -32,11 +49,11 @@ class UserServices {
    * @returns
    */
   getOneUser = async (id: number) => {
-    const newUser = await user.findUnique({
+    const newUser = (await user.findUnique({
       where: { id },
-    });
-    return newUser;
-  }
+    })) as User;
+    return this.exclude(newUser, ["password", "otp"]);
+  };
 
   /**
    * getUserByEmail
@@ -48,7 +65,7 @@ class UserServices {
       where: { email },
     });
     return newUser;
-  }
+  };
 
   /**
    * UpdateUser
@@ -62,7 +79,7 @@ class UserServices {
       data: { ...data },
     });
     return updatedData;
-  }
+  };
 
   /**
    * deleteUser
@@ -74,7 +91,7 @@ class UserServices {
       where: { id },
     });
     return deletedUser;
-  }
-};
+  };
+}
 
 export default UserServices;

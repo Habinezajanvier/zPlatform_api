@@ -11,8 +11,7 @@ const asyncHandler =
       await func(req, res, next);
     } catch (error: any) {
       res.status(500).json({
-        error:
-          error.message || "Internal server error, Please try again letter",
+        error: "Internal server error, Please try again letter",
       });
     }
   };

@@ -17,12 +17,6 @@ describe("Signup", () => {
       },
     });
   });
-  afterAll(async () => {
-    const deleteUsers = prisma.user.deleteMany();
-    await prisma.$transaction([deleteUsers]);
-    await prisma.$disconnect();
-  });
-
   it("Should return 201 if account created successfully", async () => {
     const account: UserType = {
       firstname: "John",
